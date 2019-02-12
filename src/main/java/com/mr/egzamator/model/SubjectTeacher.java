@@ -1,44 +1,26 @@
 package com.mr.egzamator.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "subjects_teachers")
 public class SubjectTeacher {
-
-    private int id;
-    private Teacher teacher;
-    private Subject subject;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_subjects_teachers")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "teachers_id_teacher")
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
+    private Teacher teacher;
 
     @ManyToOne
     @JoinColumn(name = "subjects_id_subject")
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
+    private Subject subject;
 }
