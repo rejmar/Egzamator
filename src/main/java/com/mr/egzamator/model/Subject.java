@@ -19,23 +19,10 @@ public class Subject {
 
     @Column(name = "name")
     private String name;
-    private Set<SubjectTeacher> subjectTeachers;
-    private Set<SubjectStudent> subjectStudents;
-    private Set<Test> tests;
-
-
     @OneToMany(mappedBy = "subject")
-    public Set<SubjectTeacher> getSubjectTeachers() {
-        return subjectTeachers;
-    }
-
+    private Set<SubjectTeacher> subjectTeachers;
     @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,orphanRemoval = true)
-    public Set<SubjectStudent> getSubjectStudents() {
-        return subjectStudents;
-    }
-
+    private Set<SubjectStudent> subjectStudents;
     @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL)
-    public Set<Test> getTests() {
-        return tests;
-    }
+    private Set<Test> tests;
 }

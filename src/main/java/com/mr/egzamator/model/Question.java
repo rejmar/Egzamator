@@ -34,11 +34,7 @@ public class Question {
     @Column(name = "correct_answer")
     private char correct_answer;
 
-    private Test test;
-
     @ManyToOne
     @JoinColumn(name = "tests_id_test")
-    public Test getTest() {
-        return test;
-    }
+    private Test test;
 }

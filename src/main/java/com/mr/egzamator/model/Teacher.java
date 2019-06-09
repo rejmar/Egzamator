@@ -27,11 +27,6 @@ public class Teacher {
     @Column(name = "password")
     private String password;
 
-    private Set<SubjectTeacher> subjectTeachers;
-
-
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,orphanRemoval = true)
-    public Set<SubjectTeacher> getSubjectTeachers() {
-        return subjectTeachers;
-    }
+    private Set<SubjectTeacher> subjectTeachers;
 }

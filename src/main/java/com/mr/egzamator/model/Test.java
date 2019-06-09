@@ -20,24 +20,11 @@ public class Test {
 
     @Column(name = "name")
     private String name;
-    private Subject subject;
-    private Set<Question> questions;
-    private Mark mark;
-
-
     @ManyToOne
     @JoinColumn(name = "subjects_id_subject")
-    public Subject getSubject() {
-        return subject;
-    }
-
+    private Subject subject;
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
-    public Set<Question> getQuestions() {
-        return questions;
-    }
-
+    private Set<Question> questions;
     @OneToOne(mappedBy = "test")
-    public Mark getMark() {
-        return mark;
-    }
+    private Mark mark;
 }

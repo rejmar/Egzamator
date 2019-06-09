@@ -19,19 +19,10 @@ public class Mark {
 
     @Column(name = "mark")
     private double mark;
-    private Test test;
-    private Student student;
-
-
     @OneToOne
     @JoinColumn(name = "tests_id_test")
-    public Test getTest() {
-        return test;
-    }
-
+    private Test test;
     @ManyToOne
     @JoinColumn(name = "students_id_student")
-    public Student getStudent() {
-        return student;
-    }
+    private Student student;
 }

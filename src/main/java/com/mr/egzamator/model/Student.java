@@ -23,17 +23,10 @@ public class Student {
 
     @Column(name = "password")
     private String password;
-    private Set<SubjectStudent> subjectStudents;
-    private Set<Mark> marks;
-
 
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL,orphanRemoval = true)
-    public Set<SubjectStudent> getSubjectStudents() {
-        return subjectStudents;
-    }
+    private Set<SubjectStudent> subjectStudents;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    public Set<Mark> getMarks() {
-        return marks;
-    }
+    private Set<Mark> marks;
 }
