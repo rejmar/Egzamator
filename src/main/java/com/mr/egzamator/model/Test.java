@@ -9,21 +9,21 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "tests")
+@Table(name = "TEST")
 public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_test")
+    @Column(name = "ID")
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "subjects_id_subject")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
     private Subject subject;
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Question> questions;
-    @OneToOne(mappedBy = "test")
+    @OneToOne(mappedBy = "test", fetch = FetchType.LAZY)
     private Mark mark;
 }
