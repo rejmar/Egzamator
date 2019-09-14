@@ -8,33 +8,33 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "question")
+@Table(name = "QUESTION")
 public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_question")
+    @Column(name = "ID")
     private int id;
 
-    @Column(name = "content")
+    @Column(name = "CONTENT")
     private String content;
 
-    @Column(name = "ans_a")
+    @Column(name = "ANS_A")
     private String ans_a;
 
-    @Column(name = "ans_b")
+    @Column(name = "ANS_B")
     private String ans_b;
 
-    @Column(name = "ans_c")
+    @Column(name = "ANS_C")
     private String ans_c;
 
-    @Column(name = "ans_d")
+    @Column(name = "ANS_D")
     private String ans_d;
 
-    @Column(name = "correct_answer")
+    @Column(name = "CORRECT_ANSWER")
     private char correct_answer;
 
-    @ManyToOne
-    @JoinColumn(name = "tests_id_test")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id")
     private Test test;
 }

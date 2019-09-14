@@ -9,23 +9,23 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "student")
+@Table(name = "STUDENT")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_student")
+    @Column(name = "ID")
     private int id;
 
-    @Column(name = "index_number")
+    @Column(name = "INDEX_NUMBER")
     private String indexNumber;
 
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<SubjectStudent> subjectStudents;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Mark> marks;
 }

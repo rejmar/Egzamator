@@ -8,19 +8,19 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "subjects_teachers")
+@Table(name = "SUBJECT_TEACHER")
 public class SubjectTeacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_subjects_teachers")
+    @Column(name = "ID")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "teachers_id_teacher")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @ManyToOne
-    @JoinColumn(name = "subjects_id_subject")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
     private Subject subject;
 }

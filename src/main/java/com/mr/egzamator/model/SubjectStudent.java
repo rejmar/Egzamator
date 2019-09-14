@@ -3,16 +3,17 @@ package com.mr.egzamator.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "subjects_students")
+@Table(name = "SUBJECT_STUDENT")
 public class SubjectStudent {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_subjects_students")
+    @Column(name = "ID")
     private int id;
-    @ManyToOne
-    @JoinColumn(name = "students_id_student")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
     private Student student;
-    @ManyToOne
-    @JoinColumn(name = "subjects_id_subject")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
     private Subject subject;
 }

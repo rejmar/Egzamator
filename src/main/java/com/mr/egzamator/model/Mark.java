@@ -7,20 +7,20 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "marks")
+@Table(name = "MARK")
 @NoArgsConstructor
 public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID_MARK")
+    @Column(name = "ID")
     private int id;
 
     @Column(name = "MARK")
     private double mark;
-    @OneToOne
-    @JoinColumn(name = "TESTS_ID_TEST")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id")
     private Test test;
-    @ManyToOne
-    @JoinColumn(name = "STUDENTS_ID_STUDENT")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
     private Student student;
 }
