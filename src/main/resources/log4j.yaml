@@ -1,0 +1,20 @@
+# Root logger option
+log4j:
+  rootLogger: INFO, file, stdout
+  # configuration to print into file
+  #log4j.appender.LOGFILE=org.apache.log4j.rolling.RollingFileAppender
+  #log4j.appender.LOGFILE.RollingPolicy=org.apache.log4j.rolling.TimeBasedRollingPolicy
+  #log4j.appender.LOGFILE.RollingPolicy.FileNamePattern=/logs/application_%d{yyyy-MM-dd}.log
+  appender:
+    file: org.apache.log4j.RollingFileAppender
+      RollingPolicy: org.apache.log4j.rolling.TimeBasedRollingPolicy
+        FileNamePattern: ./logs/egzamator_%d{yyyy-MM-dd}.log
+        MaxFileSize: 12MB
+        MaxBackupIndex: 10
+      layout: org.apache.log4j.PatternLayout
+        ConversionPattern: %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+  # configuration to print on console
+    stdout: org.apache.log4j.ConsoleAppender
+      Target: System.out
+      layout: org.apache.log4j.PatternLayout
+        ConversionPattern: %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n

@@ -1,0 +1,14 @@
+server.servlet.context-path: /egzamator-api
+
+  ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/egzamator?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    username: root
+    #password: m4rjusz3kMy$Q1
+    password: ${egzamator.db.password}
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
