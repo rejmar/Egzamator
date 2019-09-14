@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/marks")
+@RequestMapping(path = "/mark")
 public class MarkController {
     private static final Logger LOGGER = LogManager.getLogger(MarkController.class);
 

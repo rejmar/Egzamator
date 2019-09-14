@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
@@ -14,15 +12,15 @@ import java.util.Set;
 public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_mark")
+    @Column(name = "ID_MARK")
     private int id;
 
-    @Column(name = "mark")
+    @Column(name = "MARK")
     private double mark;
     @OneToOne
-    @JoinColumn(name = "tests_id_test")
+    @JoinColumn(name = "TESTS_ID_TEST")
     private Test test;
     @ManyToOne
-    @JoinColumn(name = "students_id_student")
+    @JoinColumn(name = "STUDENTS_ID_STUDENT")
     private Student student;
 }
