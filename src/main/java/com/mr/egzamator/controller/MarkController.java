@@ -28,6 +28,7 @@ public class MarkController {
     @GetMapping(path = "/getAllMarks")
     public @ResponseBody List<Mark> getAllMarks(){
         LOGGER.info("getAllMarks called");
+
         return markService.getAllMarks();
     }
 }

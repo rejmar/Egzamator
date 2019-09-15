@@ -20,9 +20,6 @@ public class Student {
     @Column(name = "INDEX_NUMBER")
     private String indexNumber;
 
-    @Column(name = "PASSWORD")
-    private String password;
-
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<SubjectStudent> subjectStudents;
 
