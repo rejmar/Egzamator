@@ -21,8 +21,8 @@ public class Subject {
     private String name;
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
     private Set<SubjectTeacher> subjectTeachers;
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<SubjectStudent> subjectStudents;
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Test> tests;
 }

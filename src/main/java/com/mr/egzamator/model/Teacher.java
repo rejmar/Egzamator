@@ -1,5 +1,6 @@
 package com.mr.egzamator.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "TEACHER")
+@Table(name = "teacher")
 public class Teacher {
 
     @Id
@@ -25,6 +26,11 @@ public class Teacher {
 
     @Column(name = "PASSWORD")
     private String password;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<SubjectTeacher> subjectTeachers;
