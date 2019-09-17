@@ -1,40 +1,53 @@
 package com.mr.egzamator.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "QUESTION")
+@Table(name = "question")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Question {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "CONTENT")
-    private String content;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "ANS_A")
+    @Column(name = "ans_a")
     private String ans_a;
 
-    @Column(name = "ANS_B")
+    @Column(name = "ans_b")
     private String ans_b;
 
-    @Column(name = "ANS_C")
+    @Column(name = "ans_c")
     private String ans_c;
 
-    @Column(name = "ANS_D")
+    @Column(name = "ans_d")
     private String ans_d;
 
-    @Column(name = "CORRECT_ANSWER")
+    @Column(name = "correct_answer")
     private char correct_answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id")
+    @JsonBackReference
     private Test test;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Answer> answer;
 }

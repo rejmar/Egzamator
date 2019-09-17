@@ -1,28 +1,37 @@
 package com.mr.egzamator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "SUBJECT")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
-    private Set<SubjectTeacher> subjectTeachers;
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<SubjectStudent> subjectStudents;
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @ManyToMany(mappedBy = "subjects")
+    private Set<Teacher> teachers;
+    @ManyToMany(mappedBy = "subjects")
+    private Set<Student> students;
+    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Test> tests;
 }

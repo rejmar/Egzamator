@@ -16,8 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/mark")
 public class MarkController {
-    private static final Logger LOGGER = LogManager.getLogger(MarkController.class);
-
     private MarkService markService;
 
     @Autowired
@@ -25,10 +23,5 @@ public class MarkController {
         this.markService = markService;
     }
 
-    @GetMapping(path = "/getAllMarks")
-    public @ResponseBody List<Mark> getAllMarks(){
-        LOGGER.info("getAllMarks called");
 
-        return markService.getAllMarks();
-    }
 }
