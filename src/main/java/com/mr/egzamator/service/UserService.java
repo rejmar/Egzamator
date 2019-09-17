@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,18 +64,19 @@ public class UserService {
             newRole.setRole("ROLE_USER");
             roleRepository.saveAndFlush(newRole);
             log.info("New role created");
-//            newUser.setRole(roleRepository.findByName(newRole.getRole()));
             newUser.setRole(newRole);
 
-            log.info("Creating new student");
-            Student newStudent = new Student();
-            newStudent.setUser(newUser);
-            em.persist(newStudent);
-            log.info("New student created");
-            newUser.setStudent(newStudent);
+
         } else {
             newUser.setRole(role.get());
         }
+        log.info("Creating new student");
+        Student newStudent = new Student();
+        newStudent.setUser(newUser);
+        em.persist(newStudent);
+        log.info("New student created");
+        newUser.setStudent(newStudent);
+
         return newUser;
     }
 
@@ -86,7 +88,19 @@ public class UserService {
 
     public User checkUser(String email, Integer indexNumber) {
         log.info("Checking existance of user with email: " + email + ", indexNumber: " + indexNumber);
-        Optional<User> userEmail = userRepository.findByEmailAndIndexNumber(email, indexNumber);
-        return userEmail.orElse(null);
+        List<User> users = userRepository.getAllUsersByEmailOrIndexNumber(email, indexNumber);
+
+        if (users.size() == 1) {
+            User user = users.get(0);
+            log.info("User found: " + user);
+            return user;
+        } else {
+            log.info("User not found or is not unique: " + users);
+            return null;
+        }
+    }
+
+    public User getUser(String userId) {
+        return userRepository.findByUserIdentity(userId).orElse(null);
     }
 }

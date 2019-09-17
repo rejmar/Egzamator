@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -28,8 +27,13 @@ public class UserController {
         return userService.findUserRole(userId);
     }
 
-    @GetMapping("/checkUser")
+    @PostMapping("/checkUser")
     public User checkUserIfExist(@RequestParam String email, @RequestParam Integer indexNumber){
         return userService.checkUser(email, indexNumber);
+    }
+
+    @PostMapping("/getUser")
+    public User getUser(@RequestParam String userId) {
+        return userService.getUser(userId);
     }
 }

@@ -1,5 +1,7 @@
 package com.mr.egzamator.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "role")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +25,6 @@ public class Role {
     private String role;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonBackReference
     private Set<User> users;
 }
