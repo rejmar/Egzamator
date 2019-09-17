@@ -26,11 +26,13 @@ public class TeacherService {
     }
 
     @Transactional
-    public void assignSubject(String userId, String subjectName) {
+    public void assignToSubject(String userId, String subjectName) {
+        log.info("Looking for user " + userId + " and subject " + subjectName);
         Optional<Subject> oSubject = subjectRepository.findByName(subjectName);
         Optional<Teacher> oTeacher = teacherRepository.findByUserId(userId);
 
         if (oSubject.isPresent() && oTeacher.isPresent()){
+            log.info("User and subject found");
             Teacher teacher = oTeacher.get();
             Subject subject = oSubject.get();
 
@@ -45,6 +47,8 @@ public class TeacherService {
         } else {
             if (!oTeacher.isPresent()) {
                 log.info("Teacher with userId=" + userId + " not found");
+            } else {
+                log.info("Subject " + subjectName + " not found");
             }
         }
     }

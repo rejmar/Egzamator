@@ -22,7 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "userIdentity")
+    @Column(name = "userIdentity", unique = true)
     @NotEmpty(message = "*Authorization problem. No userId")
     private String userIdentity;
     @Column(name = "email")
@@ -34,7 +34,7 @@ public class User {
     private Integer indexNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
-    @JsonBackReference
+    @JsonManagedReference
     private Role role;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference

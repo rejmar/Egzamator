@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByIndexNumber(Integer indexNumber);
 
     Optional<User> findByEmailAndIndexNumber(String email, Integer indexNumber);
+
+    @Query(value = "SELECT * FROM USER u WHERE u.email = ?1 OR u.index_number = ?2", nativeQuery = true)
+    List<User> getAllUsersByEmailOrIndexNumber(String email, Integer indexNumber);
+
+    Optional<User> findByUserIdentity(String userId);
 }

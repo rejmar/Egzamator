@@ -1,16 +1,12 @@
 package com.mr.egzamator.controller;
 
-import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import sun.security.provider.Sun;
 
 import java.util.Set;
 
@@ -33,6 +29,6 @@ public class TeacherController {
 
     @GetMapping("/assignSubject")
     public void assignSubject(@RequestParam String userId, @RequestParam String subjectName) {
-        teacherService.assignSubject(userId, subjectName);
+        teacherService.assignToSubject(userId, subjectName);
     }
 }
