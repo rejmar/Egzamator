@@ -2,7 +2,6 @@ package com.mr.egzamator.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
@@ -16,30 +15,22 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "teacher")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class Teacher {
-
+@Table(name = "answer")
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "answer")
+    private String answer;
+
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JsonBackReference
-    private User user;
+    private Question question;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "teacher_subject",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private Set<Subject> subjects;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mark_id")
     private Mark mark;
 }
