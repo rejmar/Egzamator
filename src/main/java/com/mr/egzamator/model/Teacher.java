@@ -26,17 +26,16 @@ public class Teacher {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JsonBackReference
     private User user;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "teacher_subject",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
+    @JsonManagedReference
     private Set<Subject> subjects;
 
     @JsonIgnore

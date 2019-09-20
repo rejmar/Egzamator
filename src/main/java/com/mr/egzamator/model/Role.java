@@ -21,8 +21,8 @@ public class Role {
     @Column(name = "role_id")
     private Long id;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "name")
+    private String name;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonBackReference

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
-    @Query(value = "SELECT DISTINCT(role) FROM USER u INNER JOIN ROLE r ON u.role_id = r.role_id WHERE u.user_identity = ?1", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT(name) FROM USER u INNER JOIN ROLE r ON u.role_id = r.role_id WHERE u.user_identity = ?1", nativeQuery = true)
     String findUserRole(String userId);
 
     Optional<User> findByIndexNumber(Integer indexNumber);
