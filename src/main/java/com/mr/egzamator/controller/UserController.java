@@ -3,7 +3,6 @@ package com.mr.egzamator.controller;
 import com.mr.egzamator.dto.UserDTO;
 import com.mr.egzamator.model.User;
 import com.mr.egzamator.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

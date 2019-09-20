@@ -1,5 +1,6 @@
 package com.mr.egzamator.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -28,8 +29,10 @@ public class Subject {
     private String name;
 
     @ManyToMany(mappedBy = "subjects")
+    @JsonBackReference
     private Set<Teacher> teachers;
     @ManyToMany(mappedBy = "subjects")
+    @JsonBackReference
     private Set<Student> students;
     @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference

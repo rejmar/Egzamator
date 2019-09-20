@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
 public class RoleService {
@@ -18,14 +20,14 @@ public class RoleService {
 
     public void addNewRole(String roleName) {
         log.info("Looking for role: " + roleName);
-        Role newRole = roleRepository.findByName(roleName);
+        Optional<Role> oRole = roleRepository.findByName(roleName);
 
-        if (newRole == null) {
+        if (oRole.isPresent()) {
             log.info("Creating new role");
-            newRole = new Role();
-            newRole.setRole(roleName.toUpperCase());
+            Role newRole = oRole.get();
+            newRole.setName(roleName.toUpperCase());
             roleRepository.save(newRole);
-            log.info(roleName + " created");
+            log.info(roleName + " newRole");
         } else {
             log.info(roleName + " already exists.");
         }

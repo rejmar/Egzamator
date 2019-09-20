@@ -44,7 +44,6 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id")
-    @JsonBackReference
     private Test test;
 
     @JsonIgnore

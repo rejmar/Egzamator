@@ -28,8 +28,8 @@ public class Test {
     @JoinColumn(name = "subject_id")
     @JsonBackReference
     private Subject subject;
+    @JsonIgnore
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
     private Set<Question> questions;
     @JsonIgnore
     @OneToOne(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

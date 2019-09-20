@@ -27,17 +27,16 @@ public class Student {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JsonBackReference
     private User user;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "student_subject",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
+    @JsonManagedReference
     private Set<Subject> subjects;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

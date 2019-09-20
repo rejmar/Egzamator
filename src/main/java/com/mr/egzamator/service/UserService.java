@@ -40,7 +40,7 @@ public class UserService {
 
         if (!user.isPresent()) {
             User newUser = buildUser(userDTO);
-            log.info("Registering new user: " + newUser);
+            log.info(" new user: " + newUser);
             userRepository.saveAndFlush(newUser);
             log.info("New user created");
             return newUser;
@@ -51,17 +51,16 @@ public class UserService {
     }
 
     private User buildUser(UserDTO userDTO) {
-        System.out.println(userDTO);
         User newUser = new User();
         newUser.setEmail(userDTO.getEmail());
         newUser.setIndexNumber((Integer) userDTO.getIndexNumber());
         newUser.setUserIdentity(userDTO.getUserId());
-        Optional<Role> role = roleRepository.findByRole("ROLE_USER");
+        Optional<Role> role = roleRepository.findByName("ROLE_STUDENT");
         Role newRole;
         if (!role.isPresent()) {
-            log.info("Registering new role: ROLE_USER");
+            log.info("Registering new role: ROLE_STUDENT");
             newRole = new Role();
-            newRole.setRole("ROLE_USER");
+            newRole.setName("ROLE_STUDENT");
             roleRepository.saveAndFlush(newRole);
             log.info("New role created");
             newUser.setRole(newRole);
