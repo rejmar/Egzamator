@@ -39,8 +39,8 @@ public class Question {
     @Column(name = "ans_d")
     private String ans_d;
 
-    @Column(name = "correct_answer")
-    private char correct_answer;
+    @Column(name = "correct_ans")
+    private String correct_ans;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id")

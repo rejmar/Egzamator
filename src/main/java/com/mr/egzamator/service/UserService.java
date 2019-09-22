@@ -72,7 +72,7 @@ public class UserService {
         log.info("Creating new student");
         Student newStudent = new Student();
         newStudent.setUser(newUser);
-        em.persist(newStudent);
+//        em.persist(newStudent);
         log.info("New student created");
         newUser.setStudent(newStudent);
 

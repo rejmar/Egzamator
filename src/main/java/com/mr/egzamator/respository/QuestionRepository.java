@@ -6,9 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question,Integer> {
     @Query(value = "SELECT * FROM QUESTION q INNER JOIN TEST t ON t.id = q.test_id WHERE t.name = ?1", nativeQuery = true)
-    List<Question> getQuestions(String testName);
+    Set<Question> getQuestions(String testName);
+
+    @Query(value = "SELECT * FROM QUESTION q INNER JOIN TEST t ON t.id=q.test_id WHERE t.name = ?1 AND q.id = ?2", nativeQuery = true)
+    Optional<Question> findByTestNameAndId(String name, Integer id);
 }
