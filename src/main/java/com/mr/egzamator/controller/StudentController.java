@@ -1,11 +1,13 @@
 package com.mr.egzamator.controller;
 
 import com.mr.egzamator.model.Student;
+import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/student")
@@ -36,5 +38,10 @@ public class StudentController {
     @PostMapping(value = "/addStudent")
     public void saveStudent(@RequestBody Student student){
         Student newStudent = studentService.saveStudent(student);
+    }
+
+    @GetMapping("/subjects")
+    public Set<Subject> getSubjects(@RequestParam String userId) {
+        return studentService.getSubjects(userId);
     }
 }

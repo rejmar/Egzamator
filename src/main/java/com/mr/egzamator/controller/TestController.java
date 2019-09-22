@@ -6,6 +6,8 @@ import com.mr.egzamator.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/test")
 public class TestController {
@@ -16,12 +18,17 @@ public class TestController {
         this.testService = testService;
     }
 
-    @PostMapping
-    public Test getTest(@RequestParam Long testId) {
-        return testService.getTest(testId);
+    @PostMapping(value = "/getTeacherTest")
+    public Test getTeacherTest(@RequestParam String userId, @RequestParam(value = "name") String testName) {
+        return testService.getTeacherTest(userId, testName);
     }
-    
-    @PostMapping
+
+    @PostMapping(value = "/getTests")
+    public Set<Test> getTests(@RequestParam String userId) {
+        return testService.getTests(userId);
+    }
+
+    @PostMapping(value = "/addTest")
     public Test createTest(@RequestBody TestDTO test) {
         return testService.createTest(test);
     }

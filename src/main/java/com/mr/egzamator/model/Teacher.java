@@ -41,4 +41,8 @@ public class Teacher {
     @JsonIgnore
     @OneToOne(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Mark mark;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Test> tests;
 }
