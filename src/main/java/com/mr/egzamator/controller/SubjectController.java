@@ -24,4 +24,9 @@ public class SubjectController {
     public Set<Subject> getTeacherSubjects(@RequestParam String userId) {
         return subjectService.getTeacherSubjects(userId);
     }
+
+    @PostMapping("/getStudentSubjects")
+    public Set<Subject> getStudentSubjects(@RequestParam String userId) {
+        return subjectService.getStudentSubjects(userId);
+    }
 }

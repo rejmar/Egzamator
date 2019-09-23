@@ -18,12 +18,26 @@ public interface SubjectRepository extends JpaRepository<Subject,Integer>{
             "INNER JOIN TEST tst ON tst.subject_id=s.id\n" +
             "INNER JOIN teacher t ON t.id=tst.teacher_id\n" +
             "INNER JOIN USER u ON u.id = t.user_id WHERE u.user_identity = ?1", nativeQuery = true)
-    Set<Subject> findSubjectsTestsByUserId(String userId);
+    Set<Subject> findTeacherSubjectsTestsByUserId(String userId);
+
+    @Query(value = "SELECT * FROM subject sb\n" +
+            "INNER JOIN TEST tst ON tst.subject_id=sb.id\n" +
+            "INNER JOIN STUDENT_SUBJECT ss ON ss.subject_id=sb.id\n" +
+            "INNER JOIN student st ON st.id=ss.student_id\n" +
+            "INNER JOIN USER u ON u.id = st.user_id WHERE u.user_identity = ?1", nativeQuery = true)
+    Set<Subject> findStudentSubjectsTestsByUserId(String userId);
 
     @Query(value = "SELECT * FROM subject s " +
             "INNER JOIN teacher_subject ts ON s.id=ts.subject_id " +
             "INNER JOIN teacher t ON ts.teacher_id=t.id " +
             "INNER JOIN user u ON u.id=t.user_id " +
             "WHERE u.user_identity=?1", nativeQuery = true)
-    Set<Subject> findSubjectsByUserId(String userId);
+    Set<Subject> findTeacherSubjectsByUserId(String userId);
+
+    @Query(value = "SELECT * FROM subject sb " +
+            "INNER JOIN STUDENT_SUBJECT ss ON ss.subject_id=sb.id\n" +
+            "INNER JOIN STUDENT st ON ss.student_id=st.id " +
+            "INNER JOIN user u ON u.id=st.user_id " +
+            "WHERE u.user_identity=?1", nativeQuery = true)
+    Set<Subject> findStudentSubjectsByUserId(String userId);
 }

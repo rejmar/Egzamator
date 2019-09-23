@@ -1,6 +1,7 @@
 package com.mr.egzamator.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class Mark {
     @Column(name = "mark")
     private double mark;
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "test_id")
     private Test test;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
