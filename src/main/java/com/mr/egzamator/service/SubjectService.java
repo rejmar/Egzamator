@@ -19,14 +19,26 @@ public class SubjectService {
     }
 
     public Set<Subject> getTeacherSubjects(String userId) {
-        log.info("Looking for user " + userId + " subjects...");
-        Set<Subject> subjects = subjectRepository.findSubjectsByUserId(userId);
+        log.info("Looking for teacher " + userId + " subjects...");
+        Set<Subject> subjects = subjectRepository.findTeacherSubjectsByUserId(userId);
 
         if(subjects.size() > 0) {
             log.info("Subjects found: " + subjects);
             return subjects;
         }
-        log.info("Subjects for user " + userId + " not found!");
+        log.info("Subjects for teacher " + userId + " not found!");
+        return null;
+    }
+
+    public Set<Subject> getStudentSubjects(String userId) {
+        log.info("Looking for student " + userId + " subjects...");
+        Set<Subject> subjects = subjectRepository.findStudentSubjectsByUserId(userId);
+
+        if(subjects.size() > 0) {
+            log.info("Subjects found: " + subjects);
+            return subjects;
+        }
+        log.info("Subjects for student " + userId + " not found!");
         return null;
     }
 }

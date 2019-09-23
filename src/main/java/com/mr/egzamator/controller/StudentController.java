@@ -1,5 +1,6 @@
 package com.mr.egzamator.controller;
 
+import com.mr.egzamator.dto.StudentTestDTO;
 import com.mr.egzamator.model.Student;
 import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.service.StudentService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -43,5 +45,15 @@ public class StudentController {
     @GetMapping("/subjects")
     public Set<Subject> getSubjects(@RequestParam String userId) {
         return studentService.getSubjects(userId);
+    }
+
+    @PostMapping("/tests")
+    public Map<String, Set<StudentTestDTO>> getTests(@RequestParam String userId) {
+        return studentService.getTests(userId);
+    }
+
+    @PostMapping("/solvedTests")
+    public Map<String, Set<StudentTestDTO>> getSolvedTests(@RequestParam String userId) {
+        return studentService.getSolvedTests(userId);
     }
 }

@@ -1,8 +1,6 @@
 package com.mr.egzamator.service;
 
-import com.mr.egzamator.dto.SubjectDTO;
 import com.mr.egzamator.dto.TeacherTestDTO;
-import com.mr.egzamator.dto.TestDTO;
 import com.mr.egzamator.model.Question;
 import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.model.Teacher;
@@ -64,10 +62,10 @@ public class TeacherService {
 
     public Map<String, Set<TeacherTestDTO>> getTests(String userId){
         log.info("Looking for user " + userId);
-        Set<Subject> s = subjectRepository.findSubjectsTestsByUserId(userId);
+        Set<Subject> s = subjectRepository.findTeacherSubjectsTestsByUserId(userId);
 
         System.out.println(s);
-        Set<Test> t = testRepository.findTestsByUserId(userId);
+        Set<Test> t = testRepository.findTeacherTestsByUserId(userId);
 
         Map<String, Set<TeacherTestDTO>> subjectTestMap = new HashMap<>();
         s.forEach(subject -> {
@@ -91,22 +89,22 @@ public class TeacherService {
         System.out.println(subjectTestMap);
 //        System.out.println(tests);
 
-        Optional<Teacher> oTeacher = teacherRepository.findByUserId(userId);
-        if (oTeacher.isPresent()) {
-            Set<SubjectDTO> subjects = new HashSet<>();
-            oTeacher.get().getSubjects().forEach(subject -> {
-                SubjectDTO subjectDTO = new SubjectDTO();
-                subjectDTO.setId(subject.getId());
-                subjectDTO.setName(subject.getName());
-                subjectDTO.setTests(subject.getTests());
-                subjects.add(subjectDTO);
-            });
+//        Optional<Teacher> oTeacher = teacherRepository.findByUserId(userId);
+//        if (oTeacher.isPresent()) {
+//            Set<SubjectDTO> subjects = new HashSet<>();
+//            oTeacher.get().getSubjects().forEach(subject -> {
+//                SubjectDTO subjectDTO = new SubjectDTO();
+//                subjectDTO.setId(subject.getId());
+//                subjectDTO.setName(subject.getName());
+//                subjectDTO.setTests(subject.getTests());
+//                subjects.add(subjectDTO);
+//            });
 
 
             return subjectTestMap;
-        } else {
-            return null;
-        }
+//        } else {
+//            return null;
+//        }
 
     }
 }

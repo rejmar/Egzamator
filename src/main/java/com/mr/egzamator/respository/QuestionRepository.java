@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question,Integer> {
+public interface QuestionRepository extends JpaRepository<Question,Long> {
     @Query(value = "SELECT * FROM QUESTION q INNER JOIN TEST t ON t.id = q.test_id WHERE t.name = ?1", nativeQuery = true)
     Set<Question> getQuestions(String testName);
 

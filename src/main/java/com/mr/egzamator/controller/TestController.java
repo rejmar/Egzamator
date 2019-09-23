@@ -1,6 +1,9 @@
 package com.mr.egzamator.controller;
 
+import com.mr.egzamator.dto.AnswerDTO;
 import com.mr.egzamator.dto.TestDTO;
+import com.mr.egzamator.dto.TestResultDTO;
+import com.mr.egzamator.model.Answer;
 import com.mr.egzamator.model.Test;
 import com.mr.egzamator.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +34,15 @@ public class TestController {
     @PostMapping(value = "/addTest")
     public Test createTest(@RequestBody TestDTO test) {
         return testService.createTest(test);
+    }
+
+    @PostMapping(value = "/addAnswers")
+    public void addStudentAnswers(@RequestBody TestResultDTO testResultDTO) {
+        testService.addStudentAnswers(testResultDTO);
+    }
+
+    @GetMapping(value = "/remove")
+    public void removeTest(@RequestParam String testName) {
+        testService.removeTest(testName);
     }
 }

@@ -31,6 +31,5 @@ public class Answer {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mark_id")
     private Mark mark;
 }
