@@ -28,7 +28,6 @@ public interface TestRepository extends JpaRepository<Test,Integer>{
             "INNER JOIN SUBJECT sb ON tst.subject_id=sb.id\n" +
             "INNER JOIN STUDENT_SUBJECT ss ON ss.subject_id = sb.id\n" +
             "INNER JOIN STUDENT st ON st.id=ss.student_id\n" +
-            "INNER JOIN MARK m ON m.student_id = st.id\n" +
             "INNER JOIN USER u ON u.id = st.user_id WHERE u.user_identity = ?1", nativeQuery = true)
     Set<Test> findStudentTestsByUserId(String userId);
 

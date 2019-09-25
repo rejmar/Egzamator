@@ -33,8 +33,8 @@ public class Mark {
     @JsonBackReference
     private Student student;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
     @OneToMany(mappedBy = "mark", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

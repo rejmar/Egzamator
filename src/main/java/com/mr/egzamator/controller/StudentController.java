@@ -24,12 +24,6 @@ public class StudentController {
     @GetMapping(value = "/getStudent/{id}")
     public Student getStudent(@PathVariable int id){
         return studentService.getStudentById(id);
-//        if (student != null) {
-//            return new ResponseEntity<Student>(student,HttpStatus.OK);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-
     }
 
     @GetMapping(value = "/getAllStudents")

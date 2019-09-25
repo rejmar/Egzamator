@@ -128,21 +128,21 @@ public class TestService {
     @Transactional
     public void addStudentAnswers(TestResultDTO testResultDTO) {
         System.out.println(testResultDTO);
-//        log.info("Looking for questions for test " + testName);
+        log.info("Looking for student " + testResultDTO.getUserId() + " for test " + testResultDTO.getName());
         Optional<Student> oStudent = studentRepository.findByUserId(testResultDTO.getUserId());
-//
+
         if (oStudent.isPresent()) {
+            log.info("Student found " + oStudent.get().getId());
             Student student = oStudent.get();
             Mark mark = new Mark();
             mark.setStudent(student);
-            System.out.println(testResultDTO.getSubject());
+            log.info("Looking for subject " + testResultDTO.getSubject());
             Optional<Test> test = testRepository.findByName(testResultDTO.getName());
             if (test.isPresent()) {
-                System.out.println(test.get().getTeacher());
+                log.info("Subject found. Assigned teacher : " + test.get().getTeacher().getId());
                 mark.setTeacher(test.get().getTeacher());
                 mark.setTest(test.get());
             }
-             em.persist(mark);
 
             List<Answer> answers = new ArrayList<>();
             List<Question> questions = new ArrayList<>();
@@ -151,17 +151,16 @@ public class TestService {
                 Answer answer = new Answer();
                 answer.setAnswer(answerDTO.getAnswer());
 
+                log.info("Looking for question with ID " + answerDTO.getId());
                 Optional<Question> oQuestion = questionRepository.findById(answerDTO.getId());
                 if (oQuestion.isPresent()) {
+                    log.info("Question found");
                     answer.setQuestion(oQuestion.get());
                     questions.add(oQuestion.get());
                 }
-
-
                 answer.setMark(mark);
                 answers.add(answer);
             });
-
             mark.setAnswers(answers);
 
             int counter = 0;
@@ -169,43 +168,21 @@ public class TestService {
                 for( Answer a: answers) {
                     if(q.getCorrect_ans().equals(a.getAnswer())){
                         counter++;
+                        log.info("Question " + q.getDescription() + " - correct");
+                    } else {
+                        log.info("Question " + q.getDescription() + " - wrong");
                     }
                 }
             }
-//            questions.forEach(question -> {
-//                answers.forEach(answer -> {
-//                    if (question.getCorrect_ans().equals(answer.getAnswer())) {
-//                        counter.getAndIncrement();
-//                    }
-//                });
-//            });
-            System.out.println(counter);
-            System.out.println(questions.size());
-            double markValue = (double) (counter / questions.size()*5) ;
-            System.out.println(markValue);
+            log.info("Good answers: " + counter);
+            log.info("Wrong answers: " + (questions.size() - counter));
+            double result = (double) Math.ceil(((double) counter / (double) questions.size())  * 100) ;
+            log.info("Test result " + result + "\n");
 
-
-            mark.setMark(markValue);
-
-            System.out.println(mark);
+            mark.setMark(result);
             markRepository.save(mark);
-
-//            return markRepository.save(mark);
+            log.info("Answers for test " + mark.getTest().getName() + " saved");
         }
-
-//        Optional<Question> oQuestion = questionRepository.findById(answerDTO.getQuestionId());
-//
-//        if (oQuestion.isPresent()) {
-//            answer.setQuestion(oQuestion.get());
-//            answer.setAnswer(answerDTO.getAnswer());
-//
-//            TestResultDTO testResultDTO = new TestResultDTO();
-//            testResultDTO.
-//            Mark mark = new Mark();
-//            mark.set
-//            answer.setMark();
-//        return null;
-
     }
 
     public void removeTest(String testName) {
