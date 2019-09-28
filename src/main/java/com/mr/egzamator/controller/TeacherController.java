@@ -2,7 +2,6 @@ package com.mr.egzamator.controller;
 
 import com.mr.egzamator.dto.TeacherTestDTO;
 import com.mr.egzamator.exception.EgzamatorException;
-import com.mr.egzamator.model.Mark;
 import com.mr.egzamator.model.Student;
 import com.mr.egzamator.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;

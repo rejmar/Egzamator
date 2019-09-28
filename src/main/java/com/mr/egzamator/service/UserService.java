@@ -6,14 +6,11 @@ import com.mr.egzamator.model.Role;
 import com.mr.egzamator.model.Student;
 import com.mr.egzamator.model.User;
 import com.mr.egzamator.respository.RoleRepository;
-import com.mr.egzamator.respository.StudentRepository;
 import com.mr.egzamator.respository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +20,11 @@ import java.util.Optional;
 public class UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
-    private StudentRepository studentRepository;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, StudentRepository studentRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.studentRepository = studentRepository;
     }
 
     @Transactional
@@ -53,7 +45,7 @@ public class UserService {
     private User buildUser(UserDTO userDTO) {
         User newUser = new User();
         newUser.setEmail(userDTO.getEmail());
-        newUser.setIndexNumber((Integer) userDTO.getIndexNumber());
+        newUser.setIndexNumber(userDTO.getIndexNumber());
         newUser.setUserIdentity(userDTO.getUserId());
         Optional<Role> role = roleRepository.findByName("ROLE_STUDENT");
         Role newRole;
