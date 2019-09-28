@@ -1,5 +1,6 @@
 package com.mr.egzamator.service;
 
+import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.Role;
 import com.mr.egzamator.respository.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public void addNewRole(String roleName) {
+    public void addNewRole(String roleName) throws EgzamatorException {
         log.info("Looking for role: " + roleName);
         Optional<Role> oRole = roleRepository.findByName(roleName);
 
@@ -29,7 +30,7 @@ public class RoleService {
             roleRepository.save(newRole);
             log.info(roleName + " newRole");
         } else {
-            log.info(roleName + " already exists.");
+            throw new EgzamatorException(roleName + " already exists");
         }
     }
 }

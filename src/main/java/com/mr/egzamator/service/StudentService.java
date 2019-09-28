@@ -1,6 +1,7 @@
 package com.mr.egzamator.service;
 
 import com.mr.egzamator.dto.StudentTestDTO;
+import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.*;
 import com.mr.egzamator.respository.QuestionRepository;
 import com.mr.egzamator.respository.StudentRepository;
@@ -28,23 +29,10 @@ public class StudentService {
         this.subjectRepository = subjectRepository;
     }
 
-    public Student getStudentById(int id){
-        return studentRepository.getOne(id);
-    }
-
-    public List<Student> getAllStudents(){
-        return studentRepository.findAll();
-    }
-
-    public Student saveStudent(Student student){
-        return studentRepository.save(student);
-    }
-
-
-    public Set<Subject> getSubjects(String userId){
+    public Set<Subject> getSubjects(String userId) throws EgzamatorException {
         log.info("Looking for user " + userId);
         Optional<Student> oTeacher = studentRepository.findByUserId(userId);
-        return oTeacher.map(Student::getSubjects).orElse(null);
+        return oTeacher.map(Student::getSubjects).orElseThrow(() -> new EgzamatorException(userId + " user not found"));
     }
 
 
@@ -85,7 +73,6 @@ public class StudentService {
                 }
             });
             subjectTestMap.put(subject.getName(),studentTestDTOs);
-            System.out.println(subjectTestMap);
         });
         return subjectTestMap;
     }

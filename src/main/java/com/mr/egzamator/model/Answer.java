@@ -1,15 +1,13 @@
 package com.mr.egzamator.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -23,6 +21,8 @@ public class Answer {
     private Long id;
 
     @Column(name = "answer")
+    @NotBlank(message = "Answer cannot be null")
+    @Size(min = 1, max = 1)
     private String answer;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
@@ -22,9 +24,11 @@ public class Role {
     private Long id;
 
     @Column(name = "name")
+    @NotBlank(message = "Role name cannot be blank")
+    @Size(min = 5, max = 100, message = "Role name should contain 5-100 characters")
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<User> users;
 }

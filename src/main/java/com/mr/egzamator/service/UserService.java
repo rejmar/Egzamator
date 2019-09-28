@@ -1,6 +1,7 @@
 package com.mr.egzamator.service;
 
 import com.mr.egzamator.dto.UserDTO;
+import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.Role;
 import com.mr.egzamator.model.Student;
 import com.mr.egzamator.model.User;
@@ -35,7 +36,7 @@ public class UserService {
     }
 
     @Transactional
-    public User register(UserDTO userDTO) {
+    public User register(UserDTO userDTO) throws EgzamatorException {
         Optional<User> user = userRepository.findByEmailAndIndexNumber(userDTO.getEmail(), userDTO.getIndexNumber());
 
         if (!user.isPresent()) {
@@ -45,8 +46,7 @@ public class UserService {
             log.info("New user created");
             return newUser;
         } else {
-            log.info("User already signed up");
-            return user.get();
+            throw new EgzamatorException("User already signed up");
         }
     }
 
@@ -64,15 +64,12 @@ public class UserService {
             roleRepository.saveAndFlush(newRole);
             log.info("New role created");
             newUser.setRole(newRole);
-
-
         } else {
             newUser.setRole(role.get());
         }
         log.info("Creating new student");
         Student newStudent = new Student();
         newStudent.setUser(newUser);
-//        em.persist(newStudent);
         log.info("New student created");
         newUser.setStudent(newStudent);
 
@@ -85,7 +82,7 @@ public class UserService {
         return userRole == null ? "NONE" : userRole;
     }
 
-    public User checkUser(String email, Integer indexNumber) {
+    public User checkUser(String email, Integer indexNumber) throws EgzamatorException {
         log.info("Checking existance of user with email: " + email + ", indexNumber: " + indexNumber);
         List<User> users = userRepository.getAllUsersByEmailOrIndexNumber(email, indexNumber);
 
@@ -94,8 +91,7 @@ public class UserService {
             log.info("User found: " + user);
             return user;
         } else {
-            log.info("User not found or is not unique: " + users);
-            return null;
+            throw new EgzamatorException("User not found or is not unique: " + users);
         }
     }
 

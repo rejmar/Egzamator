@@ -2,6 +2,7 @@ package com.mr.egzamator.service;
 
 import com.mr.egzamator.dto.TestDTO;
 import com.mr.egzamator.dto.TestResultDTO;
+import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.*;
 import com.mr.egzamator.respository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -38,7 +40,7 @@ public class TestService {
         this.markRepository = markRepository;
     }
 
-    public Test getTeacherTest(String userId, String testName) {
+    public Test getTeacherTest(String userId, String testName) throws EgzamatorException {
         log.info("Looking for " + testName + " test...");
         Optional<Test> oTest = testRepository.findByUserIdAndTestName(userId, testName);
 
@@ -48,18 +50,27 @@ public class TestService {
             foundTest.setQuestions(new HashSet<>(getTestQuestions(testName)));
             return foundTest;
         } else {
-            log.info("Test " + testName + " not found for user " + userId + "!");
-            return null;
+            throw new EgzamatorException("Test " + testName + " not found for user " + userId + "!");
         }
     }
 
     @Transactional
-    public Test createTest(TestDTO newTest) {
+    public Test createTest(TestDTO newTest) throws EgzamatorException {
         log.info("Looking for test " + newTest.getName());
 
-        Optional<Test> oTest = testRepository.findByUserIdAndTestName(newTest.getUserId(), newTest.getName());
+        Optional<Test> oTest = testRepository.findByName(newTest.getName());
         if (oTest.isPresent()) {
-            log.info("Test " + oTest.get().getName() + " will be updated");
+            log.info(newTest.getName() + " found");
+            if (newTest.getUserId().equals(oTest.get().getTeacher().getUser().getUserIdentity())) {
+                if (oTest.get().getDate().getTime() + oTest.get().getDuration()*60*1000 > new Date().getTime()) {
+                    log.info("Test " + oTest.get().getName() + " will be updated");
+                } else {
+                    throw new EgzamatorException("Changing past tests not allowed");
+                }
+            } else {
+                throw new EgzamatorException(newTest.getName() + " found. It was created by other teacher");
+            }
+
         } else {
             log.info("Creating new test " + newTest.getName());
         }
@@ -102,27 +113,24 @@ public class TestService {
         return test;
     }
 
-    public Set<Test> getTests(String userId) {
+    public Set<Test> getTests(String userId) throws EgzamatorException {
         log.info("Looking for " + userId + " tests...");
         Set<Test> tests = testRepository.findTeacherTestsByUserId(userId);
-//        tests.forEach(test -> test.get);
         if (tests.size() > 0) {
             log.info("Tests found: " + tests);
             return tests;
         }
-        log.info("Tests for " + userId + " not found!");
-        return null;
+        throw new EgzamatorException("Tests for " + userId + " not found!");
     }
 
-    public Set<Question> getTestQuestions(String testName) {
+    private Set<Question> getTestQuestions(String testName) throws EgzamatorException {
         log.info("Looking for questions for test " + testName);
         Set<Question> questions = questionRepository.getQuestions(testName);
         if (questions.size() > 0) {
             log.info("Quetions for test " + testName + " found" + questions);
             return questions;
         }
-        log.info("Questions for test " + testName + " not found!");
-        return null;
+        throw new EgzamatorException("Questions for test " + testName + " not found!");
     }
 
     @Transactional

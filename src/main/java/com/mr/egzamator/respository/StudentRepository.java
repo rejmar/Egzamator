@@ -14,5 +14,10 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
     @Query(value = "SELECT * FROM STUDENT s INNER JOIN USER u ON u.id = s.user_id WHERE u.user_identity = ?1", nativeQuery = true)
     Optional<Student> findByUserId(String userId);
 
+    @Query(value = "SELECT * FROM STUDENT st\n" +
+            "INNER JOIN STUDENT_SUBJECT ss ON ss.student_id = st.id\n" +
+            "INNER JOIN SUBJECT sb ON sb.id=ss.subject_id WHERE sb.name=?1", nativeQuery = true)
+    Set<Student> getAllStudents(String subjectName);
+
 
 }
