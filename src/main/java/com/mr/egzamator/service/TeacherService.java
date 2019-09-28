@@ -1,14 +1,9 @@
 package com.mr.egzamator.service;
 
 import com.mr.egzamator.dto.TeacherTestDTO;
-import com.mr.egzamator.model.Question;
-import com.mr.egzamator.model.Subject;
-import com.mr.egzamator.model.Teacher;
-import com.mr.egzamator.model.Test;
-import com.mr.egzamator.respository.QuestionRepository;
-import com.mr.egzamator.respository.SubjectRepository;
-import com.mr.egzamator.respository.TeacherRepository;
-import com.mr.egzamator.respository.TestRepository;
+import com.mr.egzamator.exception.EgzamatorException;
+import com.mr.egzamator.model.*;
+import com.mr.egzamator.respository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +18,19 @@ public class TeacherService {
     private SubjectRepository subjectRepository;
     private TestRepository testRepository;
     private QuestionRepository questionRepository;
+    private StudentRepository studentRepository;
 
     @Autowired
-    public TeacherService(TeacherRepository teacherRepository, SubjectRepository subjectRepository, TestRepository testRepository, QuestionRepository questionRepository) {
+    public TeacherService(TeacherRepository teacherRepository, SubjectRepository subjectRepository, TestRepository testRepository, QuestionRepository questionRepository, StudentRepository studentRepository) {
         this.teacherRepository = teacherRepository;
         this.subjectRepository = subjectRepository;
         this.testRepository = testRepository;
         this.questionRepository = questionRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Transactional
-    public void assignToSubject(String userId, String subjectName) {
+    public void assignToSubject(String userId, String subjectName) throws EgzamatorException {
         log.info("Looking for user " + userId + " and subject " + subjectName);
         Optional<Subject> oSubject = subjectRepository.findByName(subjectName);
         Optional<Teacher> oTeacher = teacherRepository.findByUserId(userId);
@@ -49,13 +46,14 @@ public class TeacherService {
                 teacherRepository.saveAndFlush(teacher);
                 log.info(subject.getName() + " added to teacher's " + teacher.getUser().getIndexNumber() + " subjects");
             } else {
-                log.info(teacher.getUser().getIndexNumber() + " already assigned to " + subject.getName());
+                throw new EgzamatorException(teacher.getUser().getIndexNumber() + " already assigned to " + subject.getName());
+
             }
         } else {
             if (!oTeacher.isPresent()) {
-                log.info("Teacher with userId " + userId + " not found");
+                throw new EgzamatorException("Teacher with userId " + userId + " not found");
             } else {
-                log.info("Subject " + subjectName + " not found");
+                throw new EgzamatorException("Subject " + subjectName + " not found");
             }
         }
     }
@@ -85,26 +83,19 @@ public class TeacherService {
             });
             subjectTestMap.put(subject.getName(),teacherTestDTOs);
         });
-
-        System.out.println(subjectTestMap);
-//        System.out.println(tests);
-
-//        Optional<Teacher> oTeacher = teacherRepository.findByUserId(userId);
-//        if (oTeacher.isPresent()) {
-//            Set<SubjectDTO> subjects = new HashSet<>();
-//            oTeacher.get().getSubjects().forEach(subject -> {
-//                SubjectDTO subjectDTO = new SubjectDTO();
-//                subjectDTO.setId(subject.getId());
-//                subjectDTO.setName(subject.getName());
-//                subjectDTO.setTests(subject.getTests());
-//                subjects.add(subjectDTO);
-//            });
-
-
             return subjectTestMap;
-//        } else {
-//            return null;
-//        }
+    }
 
+    public Set<Student> getStudentMarks(String subjectName) {
+        log.info("Looking for marks of all students assigned to " + subjectName);
+//        Set<Mark> studentMarks = markRepository.getStudentMarks(subjectName);
+        Set<Student> students = studentRepository.getAllStudents(subjectName);
+
+        if (students.size() != 0) {
+            log.info("Marks found");
+            return students;
+        }
+        log.info("Marks not found for subject " + subjectName);
+        return null;
     }
 }

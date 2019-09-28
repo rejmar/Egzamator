@@ -1,9 +1,11 @@
 package com.mr.egzamator.controller;
 
 import com.mr.egzamator.dto.StudentTestDTO;
+import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.Student;
 import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/student")
+@Slf4j
 public class StudentController {
     private StudentService studentService;
 
@@ -21,24 +24,14 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping(value = "/getStudent/{id}")
-    public Student getStudent(@PathVariable int id){
-        return studentService.getStudentById(id);
-    }
-
-    @GetMapping(value = "/getAllStudents")
-    public @ResponseBody List<Student> getAllStudents(){
-        return studentService.getAllStudents();
-    }
-
-    @PostMapping(value = "/addStudent")
-    public void saveStudent(@RequestBody Student student){
-        Student newStudent = studentService.saveStudent(student);
-    }
-
     @GetMapping("/subjects")
     public Set<Subject> getSubjects(@RequestParam String userId) {
-        return studentService.getSubjects(userId);
+        try {
+            return studentService.getSubjects(userId);
+        } catch (EgzamatorException e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     @PostMapping("/tests")

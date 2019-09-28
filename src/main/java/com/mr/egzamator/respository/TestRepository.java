@@ -39,6 +39,6 @@ public interface TestRepository extends JpaRepository<Test,Integer>{
             "INNER JOIN USER u ON u.id = st.user_id WHERE u.user_identity = ?1 AND m.test_id=tst.id", nativeQuery = true)
     Set<Test> findSolvedStudentTestsByUserId(String userId);
 
-    @Query(value = "SELECT * FROM TEST tst WHERE  tst.name=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM TEST tst WHERE tst.name=?1", nativeQuery = true)
    Optional<Test> findByName(String name);
 }

@@ -1,5 +1,6 @@
 package com.mr.egzamator.service;
 
+import com.mr.egzamator.exception.EgzamatorException;
 import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.respository.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class SubjectService {
         this.subjectRepository = subjectRepository;
     }
 
-    public Set<Subject> getTeacherSubjects(String userId) {
+    public Set<Subject> getTeacherSubjects(String userId) throws EgzamatorException {
         log.info("Looking for teacher " + userId + " subjects...");
         Set<Subject> subjects = subjectRepository.findTeacherSubjectsByUserId(userId);
 
@@ -26,11 +27,10 @@ public class SubjectService {
             log.info("Subjects found: " + subjects);
             return subjects;
         }
-        log.info("Subjects for teacher " + userId + " not found!");
-        return null;
+        throw new EgzamatorException("Subjects for teacher " + userId + " not found!");
     }
 
-    public Set<Subject> getStudentSubjects(String userId) {
+    public Set<Subject> getStudentSubjects(String userId) throws EgzamatorException {
         log.info("Looking for student " + userId + " subjects...");
         Set<Subject> subjects = subjectRepository.findStudentSubjectsByUserId(userId);
 
@@ -38,7 +38,6 @@ public class SubjectService {
             log.info("Subjects found: " + subjects);
             return subjects;
         }
-        log.info("Subjects for student " + userId + " not found!");
-        return null;
+        throw new EgzamatorException("Subjects for student " + userId + " not found!");
     }
 }
