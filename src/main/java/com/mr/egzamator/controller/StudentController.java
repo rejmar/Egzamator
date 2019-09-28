@@ -2,14 +2,12 @@ package com.mr.egzamator.controller;
 
 import com.mr.egzamator.dto.StudentTestDTO;
 import com.mr.egzamator.exception.EgzamatorException;
-import com.mr.egzamator.model.Student;
 import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

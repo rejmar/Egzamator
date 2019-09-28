@@ -1,10 +1,8 @@
 package com.mr.egzamator.controller;
 
-import com.mr.egzamator.dto.AnswerDTO;
 import com.mr.egzamator.dto.TestDTO;
 import com.mr.egzamator.dto.TestResultDTO;
 import com.mr.egzamator.exception.EgzamatorException;
-import com.mr.egzamator.model.Answer;
 import com.mr.egzamator.model.Test;
 import com.mr.egzamator.service.TestService;
 import lombok.extern.slf4j.Slf4j;
