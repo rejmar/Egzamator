@@ -6,7 +6,9 @@ import com.mr.egzamator.model.User;
 import com.mr.egzamator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/user")
@@ -24,8 +26,7 @@ public class UserController {
         try {
             return userService.register(userDTO);
         } catch (EgzamatorException e) {
-            log.error(e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
     }
 
@@ -39,8 +40,7 @@ public class UserController {
         try {
             return userService.checkUser(email, indexNumber);
         } catch (EgzamatorException e) {
-            log.error(e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 

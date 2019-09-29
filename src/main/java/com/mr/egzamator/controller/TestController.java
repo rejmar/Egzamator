@@ -7,7 +7,9 @@ import com.mr.egzamator.model.Test;
 import com.mr.egzamator.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 
@@ -27,8 +29,7 @@ public class TestController {
         try {
             return testService.getTeacherTest(userId, testName);
         } catch (EgzamatorException e) {
-            log.error(e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
@@ -37,8 +38,7 @@ public class TestController {
         try {
             return testService.getTests(userId);
         } catch (EgzamatorException e) {
-            log.error(e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
@@ -47,8 +47,7 @@ public class TestController {
         try {
             return testService.createTest(test);
         } catch (EgzamatorException e) {
-            log.error(e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
     }
 

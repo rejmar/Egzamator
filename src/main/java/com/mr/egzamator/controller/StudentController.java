@@ -6,7 +6,9 @@ import com.mr.egzamator.model.Subject;
 import com.mr.egzamator.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 import java.util.Set;
@@ -27,8 +29,7 @@ public class StudentController {
         try {
             return studentService.getSubjects(userId);
         } catch (EgzamatorException e) {
-            log.error(e.getMessage());
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
