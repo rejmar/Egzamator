@@ -1,41 +1,41 @@
 package com.mr.egzamator.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "subjects")
+@Table(name = "SUBJECT")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_subject")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
-    private Set<SubjectTeacher> subjectTeachers;
-    private Set<SubjectStudent> subjectStudents;
+
+    @ManyToMany(mappedBy = "subjects")
+    @JsonBackReference
+    private Set<Teacher> teachers;
+    @ManyToMany(mappedBy = "subjects")
+    @JsonBackReference
+    private Set<Student> students;
+    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Test> tests;
 
-
-    @OneToMany(mappedBy = "subject")
-    public Set<SubjectTeacher> getSubjectTeachers() {
-        return subjectTeachers;
-    }
-
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,orphanRemoval = true)
-    public Set<SubjectStudent> getSubjectStudents() {
-        return subjectStudents;
-    }
-
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL)
-    public Set<Test> getTests() {
-        return tests;
+    @Override
+    public String toString() {
+        return getName();
     }
 }

@@ -1,43 +1,48 @@
 package com.mr.egzamator.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "tests")
+@Table(name = "test")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Test {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_test")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
+
+    @Column(name = "date")
+    private Timestamp date;
+
+    @Column(name = "duration")
+    private Long duration;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
     private Subject subject;
+    @JsonIgnore
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Question> questions;
+    @JsonIgnore
+    @OneToOne(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Mark mark;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 
-
-    @ManyToOne
-    @JoinColumn(name = "subjects_id_subject")
-    public Subject getSubject() {
-        return subject;
-    }
-
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
-    public Set<Question> getQuestions() {
-        return questions;
-    }
-
-    @OneToOne(mappedBy = "test")
-    public Mark getMark() {
-        return mark;
-    }
 }

@@ -1,0 +1,54 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.8.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.mr'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+apply from: 'versions.gradle'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.apache.logging.log4j:log4j-api:' + versions.log4j
+
+	implementation 'io.springfox:springfox-swagger-ui:' + versions.swagger
+	implementation 'io.springfox:springfox-swagger2:' + versions.swagger
+
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:' + versions.jackson
+	implementation 'com.fasterxml.jackson.core:jackson-databind:' + versions.jackson
+	implementation 'com.fasterxml.jackson.core:jackson-core:' + versions.jackson
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+test {
+	useJUnitPlatform()
+}

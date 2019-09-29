@@ -1,37 +1,48 @@
 package com.mr.egzamator.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "teachers")
+@Table(name = "teacher")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Teacher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_teacher")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    private User user;
 
-    @Column(name = "surname")
-    private String surname;
+    @ManyToMany
+    @JoinTable(
+            name = "teacher_subject",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    @JsonManagedReference
+    private Set<Subject> subjects;
 
-    @Column(name = "password")
-    private String password;
+    @JsonIgnore
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Mark> marks;
 
-    private Set<SubjectTeacher> subjectTeachers;
-
-
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,orphanRemoval = true)
-    public Set<SubjectTeacher> getSubjectTeachers() {
-        return subjectTeachers;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Test> tests;
 }
