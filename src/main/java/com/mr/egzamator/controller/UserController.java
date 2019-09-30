@@ -40,7 +40,8 @@ public class UserController {
         try {
             return userService.checkUser(email, indexNumber);
         } catch (EgzamatorException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            log.info("User not found: email: " + email + ", index number: " + indexNumber);
+            return null;
         }
     }
 

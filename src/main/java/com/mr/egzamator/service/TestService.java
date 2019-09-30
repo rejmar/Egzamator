@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -171,13 +172,12 @@ public class TestService {
 
             int counter = 0;
             for(Question q: questions) {
-                for( Answer a: answers) {
-                    if(q.getCorrect_ans().equals(a.getAnswer())){
-                        counter++;
-                        log.info("Question " + q.getDescription() + " - correct");
-                    } else {
-                        log.info("Question " + q.getDescription() + " - wrong");
-                    }
+                List<Answer> correctAnswer = answers.stream().filter(answer -> q.getCorrect_ans().equals(answer.getAnswer())).collect(Collectors.toList());
+                if (correctAnswer.size() > 0 ) {
+                    counter++;
+                    log.info("Question " + q.getDescription() + " - correct");
+                } else {
+                    log.info("Question " + q.getDescription() + " - wrong");
                 }
             }
             log.info("Good answers: " + counter);
